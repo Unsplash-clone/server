@@ -1,7 +1,7 @@
-require("dotenv").config();
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const { ImageModel } = require("../model/model");
 
 const router = express.Router();
 
@@ -9,9 +9,9 @@ router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
   async (req, res, next) => {
+    res.statusCode = 201;
     res.json({
       message: "Signup successful",
-      user: req.user,
     });
   }
 );
@@ -37,6 +37,17 @@ router.post("/login", async (req, res, next) => {
       return next(error);
     }
   })(req, res, next);
+});
+
+router.post("/post", async (req, res, next) => {
+  res.statusCode = 201;
+
+  return res.json(
+    await ImageModel.create({
+      url: req.query.url,
+      label: req.query.label,
+    })
+  );
 });
 
 module.exports = router;
