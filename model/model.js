@@ -15,6 +15,11 @@ const UserSchema = new Schema({
   },
 });
 
+const ImageSchema = new Schema({
+  url: String,
+  label: String,
+});
+
 UserSchema.pre("save", async function (next) {
   const hash = await bcrypt.hash(this.password, 10);
 
@@ -30,5 +35,6 @@ UserSchema.methods.isValidPassword = async function (password) {
 };
 
 const UserModel = mongoose.model("user", UserSchema);
+const ImageModel = mongoose.model("image", ImageSchema);
 
-module.exports = UserModel;
+module.exports = { UserModel, ImageModel };
