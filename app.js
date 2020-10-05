@@ -20,8 +20,12 @@ const secureRoute = require("./routes/secure-routes");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/", routes);
-app.use("/user", passport.authenticate("jwt", { session: false }), secureRoute);
+app.use("/api/", routes);
+app.use(
+  "/api/user",
+  passport.authenticate("jwt", { session: false }),
+  secureRoute
+);
 
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
