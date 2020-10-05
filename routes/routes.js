@@ -1,7 +1,8 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const { ImageModel } = require("../model/model");
+const uuid = require("uuid");
+const UserModel = require("../model/model");
 
 const router = express.Router();
 
@@ -42,11 +43,13 @@ router.post("/login", async (req, res, next) => {
 router.post("/post", async (req, res, next) => {
   res.statusCode = 201;
 
-  return res.json(
-    await ImageModel.create({
-      url: req.query.url,
-      label: req.query.label,
-    })
+  return (
+    await UserModel.updateOne({
+      $push: {
+        images: { url: req.query.url, label: req.query.label, uuid: uuid.v1() },
+      },
+    }),
+    res.json({ success: true })
   );
 });
 
