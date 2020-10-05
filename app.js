@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 
-mongoose.connect("mongodb://127.0.0.1:27017/unsplash", {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -20,14 +20,18 @@ const secureRoute = require("./routes/secure-routes");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/", routes);
-app.use("/user", passport.authenticate("jwt", { session: false }), secureRoute);
+app.use("/api/", routes);
+app.use(
+  "/api/user",
+  passport.authenticate("jwt", { session: false }),
+  secureRoute
+);
 
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
 });
 
-app.listen(3000, () => {
-  console.log("Server started.");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server started");
 });
