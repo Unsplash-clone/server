@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
@@ -19,7 +20,9 @@ const secureRoute = require("./routes/secure-routes");
 
 const app = express();
 
+// app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use("/api/", routes);
 app.use(
   "/api/user",
@@ -32,6 +35,6 @@ app.use(function (err, req, res, next) {
   res.json({ error: err });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Server started");
 });
