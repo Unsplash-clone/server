@@ -13,11 +13,19 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-});
-
-const ImageSchema = new Schema({
-  url: String,
-  label: String,
+  images: [
+    {
+      url: {
+        type: String,
+        required: true,
+      },
+      label: String,
+      uuid: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 UserSchema.pre("save", async function (next) {
@@ -35,6 +43,5 @@ UserSchema.methods.isValidPassword = async function (password) {
 };
 
 const UserModel = mongoose.model("user", UserSchema);
-const ImageModel = mongoose.model("image", ImageSchema);
 
-module.exports = { UserModel, ImageModel };
+module.exports = UserModel;
