@@ -20,6 +20,7 @@ const routes = require("./routes/routes");
 const secureRoute = require("./routes/secure-routes");
 
 const app = express();
+app.set("trust proxy", true);
 
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
