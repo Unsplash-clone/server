@@ -8,6 +8,7 @@ const cors = require("cors");
 mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: true,
 });
 mongoose.set("useCreateIndex", true);
 mongoose.connection.on("error", (error) => console.log(error));

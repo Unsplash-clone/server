@@ -20,7 +20,7 @@ router.post("/post", async (req, res, next) => {
   res.statusCode = 201;
 
   return (
-    await UserModel.updateOne({
+    await UserModel.findByIdAndUpdate(req.user._id, {
       $push: {
         images: { url: req.body.url, label: req.body.label, uuid: uuid.v1() },
       },
