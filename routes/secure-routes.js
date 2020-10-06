@@ -28,7 +28,7 @@ router.post("/post", async (req, res, next) => {
 router.delete("/post", async (req, res, next) => {
   const user = await UserModel.findById(req.user._id);
 
-  bcrypt.compare(req.query.password, user.password, async (err, result) => {
+  bcrypt.compare(req.body.password, user.password, async (err, result) => {
     if (err) {
       res.status(500).json({ success: false, error: err });
     } else if (result) {
