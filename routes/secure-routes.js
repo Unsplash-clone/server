@@ -12,21 +12,20 @@ router.get("/profile", (req, res, next) => {
 
 router.get("/images", async (req, res, next) => {
   const user = await UserModel.findById(req.user._id);
+
   res.json({
     images: user.images,
   });
 });
 
 router.post("/post", async (req, res, next) => {
-  res.statusCode = 201;
-
   return (
     await UserModel.findByIdAndUpdate(req.user._id, {
       $push: {
         images: { url: req.body.url, label: req.body.label, uuid: uuid.v1() },
       },
     }),
-    res.json({ success: true })
+    res.status(201).json({ images: user.images })
   );
 });
 
@@ -41,7 +40,7 @@ router.post("/deletepost", async (req, res, next) => {
         { _id: req.user._id },
         { $pull: { images: { uuid: req.body.uuid } } }
       );
-      res.status(202).json({ success: true });
+      res.status(202).json({ images: user.images });
     } else {
       res.status(401).json({ success: false });
     }
