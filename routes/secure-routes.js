@@ -15,7 +15,7 @@ router.post("/post", async (req, res, next) => {
   return (
     await UserModel.updateOne({
       $push: {
-        images: { url: req.query.url, label: req.query.label, uuid: uuid.v1() },
+        images: { url: req.body.url, label: req.body.label, uuid: uuid.v1() },
       },
     }),
     res.json({ success: true })
