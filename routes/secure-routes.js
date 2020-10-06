@@ -5,9 +5,7 @@ const UserModel = require("../model/model");
 
 router.get("/profile", (req, res, next) => {
   res.json({
-    message: "Secure route",
     user: req.user,
-    token: req.query.secret_token,
   });
 });
 
