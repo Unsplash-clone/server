@@ -9,6 +9,13 @@ router.get("/profile", (req, res, next) => {
   });
 });
 
+router.get("/images", async (req, res, next) => {
+  const user = await UserModel.findById(req.user._id);
+  res.json({
+    images: user.images,
+  });
+});
+
 router.post("/post", async (req, res, next) => {
   res.statusCode = 201;
 
