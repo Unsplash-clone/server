@@ -22,11 +22,10 @@ const secureRoute = require("./routes/secure-routes");
 const app = express();
 app.set("trust proxy", true);
 
-// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "my-unsplash-eight.vercel.app",
+    origin: process.env.CLIENT_URL,
   })
 );
 app.use("/api/", routes);
