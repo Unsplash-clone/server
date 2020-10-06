@@ -19,14 +19,16 @@ router.get("/images", async (req, res, next) => {
 });
 
 router.post("/post", async (req, res, next) => {
-  return (
-    await UserModel.findByIdAndUpdate(req.user._id, {
+  const user = await UserModel.findByIdAndUpdate(
+    req.user._id,
+    {
       $push: {
         images: { url: req.body.url, label: req.body.label, uuid: uuid.v1() },
       },
-    }),
-    res.status(201).json({ images: user.images })
+    },
+    { new: true }
   );
+  res.status(201).json({ images: user.images });
 });
 
 router.post("/deletepost", async (req, res, next) => {
