@@ -3,6 +3,7 @@ const router = express.Router();
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const UserModel = require("../model/model");
+const user = await UserModel.findById(req.user._id);
 
 router.get("/profile", (req, res, next) => {
   res.json({
@@ -11,7 +12,6 @@ router.get("/profile", (req, res, next) => {
 });
 
 router.get("/images", async (req, res, next) => {
-  const user = await UserModel.findById(req.user._id);
   res.json({
     images: user.images,
   });
@@ -26,13 +26,11 @@ router.post("/post", async (req, res, next) => {
         images: { url: req.body.url, label: req.body.label, uuid: uuid.v1() },
       },
     }),
-    res.json({ success: true })
+    res.json({ images: user.images })
   );
 });
 
 router.post("/deletepost", async (req, res, next) => {
-  const user = await UserModel.findById(req.user._id);
-
   bcrypt.compare(req.body.password, user.password, async (err, result) => {
     if (err) {
       res.status(500).json({ success: false, error: err });
@@ -41,7 +39,7 @@ router.post("/deletepost", async (req, res, next) => {
         { _id: req.user._id },
         { $pull: { images: { uuid: req.body.uuid } } }
       );
-      res.status(202).json({ success: true });
+      res.status(202).json({ images: user.images });
     } else {
       res.status(401).json({ success: false });
     }
