@@ -20,10 +20,14 @@ const routes = require("./routes/routes");
 const secureRoute = require("./routes/secure-routes");
 
 const app = express();
+app.set("trust proxy", true);
 
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+  })
+);
 app.use("/api/", routes);
 app.use(
   "/api/user",
