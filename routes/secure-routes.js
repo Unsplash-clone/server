@@ -30,7 +30,7 @@ router.post("/post", async (req, res, next) => {
   );
 });
 
-router.delete("/post", async (req, res, next) => {
+router.post("/deletepost", async (req, res, next) => {
   const user = await UserModel.findById(req.user._id);
 
   bcrypt.compare(req.body.password, user.password, async (err, result) => {
@@ -41,7 +41,6 @@ router.delete("/post", async (req, res, next) => {
         { _id: req.user._id },
         { $pull: { images: { uuid: req.body.uuid } } }
       );
-
       res.status(202).json({ success: true });
     } else {
       res.status(401).json({ success: false });

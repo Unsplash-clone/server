@@ -21,7 +21,7 @@ const secureRoute = require("./routes/secure-routes");
 
 const app = express();
 
-// app.use(cors());
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/api/", routes);
