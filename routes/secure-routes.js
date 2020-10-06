@@ -38,11 +38,12 @@ router.post("/deletepost", async (req, res, next) => {
     if (err) {
       res.status(500).json({ success: false, error: err });
     } else if (result) {
-      await UserModel.findOneAndUpdate(
+      const updatedUser = await UserModel.findOneAndUpdate(
         { _id: req.user._id },
-        { $pull: { images: { uuid: req.body.uuid } } }
+        { $pull: { images: { uuid: req.body.uuid } } },
+        { new: true }
       );
-      res.status(202).json({ images: user.images });
+      res.status(202).json({ images: updatedUser.images });
     } else {
       res.status(401).json({ success: false });
     }
